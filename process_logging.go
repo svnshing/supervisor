@@ -22,12 +22,12 @@ func (c Client) ReadProcessStderr(name string, offset, length int) (string, erro
 
 // Provides a more efficient way to tail the stdout log
 func (c Client) TailProcessStdout(name string, offset, length int) (string, error) {
-	var result string
+	var result = make([]interface{}, 3)
 	err := c.makeRequest("supervisor.tailProcessStdoutLog", []interface{}{name, offset, length}, &result)
 	if err != nil {
 		return "", err
 	}
-	return result, nil
+	return result[0].(string), nil
 }
 
 // Provides a more efficient way to tail the stderr log
